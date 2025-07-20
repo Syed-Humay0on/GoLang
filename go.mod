@@ -1,3 +1,3 @@
-module example.com/GoLang
+module main
 
 go 1.24.5
