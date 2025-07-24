@@ -40,10 +40,26 @@ func main() {
 	// 	return result, remainder, err
 
 	//SLICES
-	slice_Name := []string{"Humayoon", "Rehman", "Mujtaba", "Talha"}
-	length, capacity := len(slice_Name), cap(slice_Name)
-	fmt.Printf("The length of the slice is: %v and the capacity of the slice is: %v", length, capacity)
+	// slice_Name := []string{"Humayoon", "Rehman", "Mujtaba", "Talha"}
+	// length, capacity := len(slice_Name), cap(slice_Name)
+	// fmt.Printf("The length of the slice is: %v and the capacity of the slice is: %v", length, capacity)
 
+	my_slice := make([]int, 5, 10)
+	for i := 0; i < 5; i++ {
+		my_slice[i] = (i + 1) * 10
+	}
+	for i, v := range my_slice {
+		fmt.Printf("Index %d: %d\n", i, v)
+	}
+	for i := range my_slice {
+		my_slice = append(my_slice, (i+6)*10)
+	}
+
+	fmt.Println("index after appending")
+
+	for i, v := range my_slice {
+		fmt.Printf("Index %d: %d\n", i, v)
+	}
 	// var myMap = map[string]uint8{"adam": 22, "Humayoon": 23}
 	// fmt.Println(myMap["Humayoon"])
 	// var age, ok = myMap["Imran"]
