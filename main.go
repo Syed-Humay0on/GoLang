@@ -13,5 +13,5 @@ func main() {
 	// time.Sleep(time.Second * 2)
 	// fmt.Println("Hello Web")
 	names := GetNames()
-	fmt.Println(names)
+	fmt.Println(names, len(names))
 }
