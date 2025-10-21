@@ -1,5 +1,6 @@
 ## Here's a simple Go fmt verbs cheat sheet in two columns:
 
+<!-- checking Access key  -->
 Verb	Description
 ``
 %v	Default format
