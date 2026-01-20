@@ -9,6 +9,7 @@ func yearsUntilEvents(age int) (yearsUntilAdult int, yearsUntilDrinking int, yea
 
 	yearsUntilCarRental = max(0, 25-age)
 
+	// naked return
 	return
 }
 func main() {
