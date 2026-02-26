@@ -3,25 +3,27 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
+	_ "net/http"
 	"time"
 )
 
+func task(ctx context.Context, id int) {
+	select {
+	case <-time.After(time.Duration(id) * time.Second):
+		fmt.Printf("Task %d done!\n", id)
+	case <-ctx.Done():
+		fmt.Printf("Task %d bailed: %v\n", id, ctx.Err())
+	}
+}
+
 func main() {
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	req, err := http.NewRequestWithContext(ctx, "GET", "https://api.example.com", nil)
-	if err != nil {
-		fmt.Println("Oops:", err)
-		return
+	for i := 1; i <= 3; i++ {
+		go task(ctx, i)
 	}
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Bummer:", err) // Times out? You’ll see context.DeadlineExceeded
-		return
-	}
-	defer resp.Body.Close()
-	fmt.Println("Sweet:", resp.Status)
+	time.Sleep(2 * time.Second)
+	cancel()
+	time.Sleep(1 * time.Second)
 }
