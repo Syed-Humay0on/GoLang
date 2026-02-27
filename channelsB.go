@@ -1,40 +1,23 @@
 package main
 
-import (
-	"fmt"
-	_ "time"
-)
+import "fmt"
 
 func main() {
-	// create a channel
-	ch := make(chan int)
+	// 1. Create a "pipe" (channel) for integers
+	dataChan := make(chan int)
 
-	// start a goroutine to send data to the channel
+	// 2. Start a Producer (Goroutine)
 	go func() {
-		// send data to the channel
-		ch <- 1
+		for i := 1; i <= 3; i++ {
+			fmt.Println("Producer: sending", i)
+			dataChan <- i // Send data into channel
+		}
+		close(dataChan) // Signal that no more data is coming
 	}()
 
-	// receive data from the channel
-	val := <-ch
-	fmt.Println(val)
-
-	// // create an unbuffered channel
-	// ch := make(chan int)
-	//
-	// go func() {
-	// 	fmt.Println("Sending value 1 to channel")
-	// 	ch <- 1
-	// 	fmt.Println("After sending value 1")
-	// }()
-	//
-	// // sleep for 3 seconds to ensure the goroutine has time to send the value
-	// time.Sleep(3 * time.Second)
-	//
-	// fmt.Println("Receiving value from channel")
-	// val := <-ch
-	// fmt.Println(val)
-	//
-	// // sleep 1 second to ensure goroutine has time to finish goroutine
-	// time.Sleep(1 * time.Second)
+	// 3. Consumer (Main Goroutine)
+	// 'range' automatically waits for data and stops when channel closes
+	for msg := range dataChan {
+		fmt.Println("Consumer: received", msg)
+	}
 }
